@@ -2,513 +2,579 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Exceptions</title>
     <meta content="" name="description" />
     <meta content="" name="author" />
     <link href="css/reveal.css" rel="stylesheet" />
     <link href="css/simple.css" rel="stylesheet" />
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css" rel="stylesheet" />
+    <link href="css/googlecode.css" rel="stylesheet" />
   </head>
   <body>
     <div class="reveal">
       <div class="slides"><section class="center" data-background="#000">
   <h1 class="white">
-    Konnichiwa Ruby
+    Exceptions
   </h1>
 </section>
-<section>
-  <h2>
-    Variables
-  </h2>
+<section class="center">
   <p>
-    The variables assign a name to something
-  </p>
-  <pre><code>munchies = "chunky bacon" # No need for declaration
-name = something          # The basic form </code></pre>
-</section>
-<section>
-  <h2>
-    Variables
-  </h2>
-  <p>
-    A name can point to any type
-  </p>
-  <pre><code class="ruby">an_integer = 42
-a_float = 3.14
-a_string = "this is a string literal"
-an_object = Object.new </code></pre>
-</section>
-<section>
-  <h2>
-    Variables
-  </h2>
-  <p>
-    Nothing is copied, everything is referential
-  </p>
-  <pre><code class="ruby">>> mood = "happy"
-=> "happy"
->> downer = mood
-=> "happy"
->> downer["happy"] = "sad"
-=> "sad"
->> mood
-=> "sad" </code></pre>
-</section>
-<section>
-  <h2>
-    Variables
-  </h2>
-  <p>
-    And the type can be changed midway
-  </p>
-  <pre><code class="ruby">a_string = 42         # Whether that is a good idea
-a_string = Object.new # is left as an excersice ;) </code></pre>
-</section>
-<section>
-  <h2>
-    Global Variables
-  </h2>
-  <p>
-    Global variables are visible from everywhere
-  </p>
-  <pre><code class="ruby">$do_you_really_need_that = "no" </code></pre>
-</section>
-<section>
-  <h2>
-    Constants
-  </h2>
-  <p>
-    Constants start with a capital letter
-  </p>
-  <pre><code class="ruby">ANSWER = 42            # This is a constant!
-Europe = Continent.new # So is this! </code></pre>
-</section>
-<section>
-  <h2>
-    Constants
-  </h2>
-  <p>
-    Constants are not strictly enforced
-  </p>
-  <pre><code class="ruby">>> Foo = 42
-=> 42
->> Foo = 43
-(irb):40: warning: already initialized constant Foo
-(irb):39: warning: previous definition of Foo was here
-=> 43
->> </code></pre>
-</section>
-<section class="center" data-background="#000">
-  <p class="white">
-    Naming is an important part of the code
+    I don't have anything administrative to say, but I hate leaving this slide blank
   </p>
 </section>
 <section class="center" data-background="#000">
   <p class="white">
-    Don't be sloppy with it
-  </p>
-</section>
-<section class="center" data-background="#000">
-  <p class="white">
-    Code lives a long time
-  </p>
-</section>
-<section class="center" data-background="#000">
-  <p class="white">
-    You want to understand it 1 year from now
-  </p>
-</section>
-<section class="center" data-background="#000">
-  <p class="white">
-    You want to understand it 5 year from now
+    Superstitions <span class="fragment">== Best Practices</span>
   </p>
 </section>
 <section class="center">
-  <pre><code class="ruby">everything = 42
-pi = 3.14 </code></pre>
+  <img class="inline" src="img/troll.png" />
+</section>
+<section class="center" data-background="#000">
+  <SOLID></SOLID>
 </section>
 <section>
   <h2>
-    Identifiers
+    SOLID
   </h2>
   <ul>
     <li>
-      alphanumeric characters (A-Za-z0-9)
+      Single responsibility principle
     </li>
-    <li class="fragment">
-      underscores (_)
+    <li>
+      Open/closed principle
     </li>
-    <li class="fragment">
-      may not begin with a digit (0-9)
+    <li>
+      Liskov substitution principle
+    </li>
+    <li>
+      Interface segregation principle
+    </li>
+    <li>
+      Dependency inversion principle
     </li>
   </ul>
 </section>
-<section>
-  <h2>
-    Identifiers
-  </h2>
-  <ul>
-    <li>
-      identifiers that are method names may
-    </li>
-    <li class="fragment">
-      end with a question mark (?)
-    </li>
-    <li class="fragment">
-      end with a exclamation point (!)
-    </li>
-    <li class="fragment">
-      end with equals sign (=)
-    </li>
-  </ul>
-</section>
-<section>
-  <h2>
-    Reserved Words
-  </h2>
-  <pre><code class="ruby">__FILE__  and    def       end     in      or      self   unless
-__LINE__  begin  defined?  ensure  module  redo    super  until
-BEGIN     break  do        false   next    rescue  then   when
-END       case   else      for     nil     retry   true   while
-alias     class  elsif     if      not     return  undef  yield </code></pre>
-</section>
-<section>
-  <h2>
-    Integer
-  </h2>
-  <p>
-    You can represent integers with the following literals
-  </p>
-  <pre><code class="ruby">123456  # Fixnum
-123_456 # Fixnum (underscore ignored)
--543    # Negative Fixnum </code></pre>
-</section>
-<section>
-  <h2>
-    Integer
-  </h2>
-  <p>
-    If the integer literal is too big, it will switch to a big number type
-  </p>
-  <pre><code class="ruby">123456                  # Fixnum
-123_456_789_123_345_789 # Bignum (2 ** 62 onwards) </code></pre>
-</section>
-<section>
-  <h2>
-    Integer
-  </h2>
-  <p>
-    You can represent integers in hexadecimal, octal and binary forms
-  </p>
-  <pre><code class="ruby">0xaabb     # Hexadecimal (Fixnum)
-0377       # Octal (Fixnum)
--0b101_010 # Binary (Fixnum) </code></pre>
-</section>
-<section>
-  <h2>
-    Integer
-  </h2>
-  <p>
-    Fixnum and Bignum have Integer as a base class
-  </p>
-  <pre><code class="ruby">=> Bignum
->> Integer > Fixnum
-=> true
->> Integer > Bignum
-=> true </code></pre>
-</section>
 <section class="center" data-background="#000">
+  <h2 class="white">
+    Questions
+  </h2>
+</section>
+<section class="center">
+  <p>
+    What does Object#is_a? do?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What does Object#kind_of? do?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What does Object#instance_of? do?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What is a method alias?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What is the difference between alias and alias_method?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What does Object#send does?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What does Object#public_send does?
+  </p>
+</section>
+<section class="center" data-background="#87cefa">
   <p class="white">
-    Everything in Ruby is an object
+    Why is the sky blue?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What should happen if I read from a file that doesn't exist?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What should happen if I write to the disk and the disk is full?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What should happen if I open a website that doesn't exist?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What should happen if I access an element that doesn't exist in a Hash?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What should happen if I delete by zero?
+  </p>
+</section>
+<section class="center">
+  <p>
+    What should happen if I access a method that doesn't exist?
   </p>
 </section>
 <section class="center" data-background="#000">
-  <p class="white">
-    Objects have actions
+  <h2 class="white">
+    Errors
+  </h2>
+</section>
+<section class="center">
+  <p>
+    Something that shouldn't happen
   </p>
+</section>
+<section class="center">
+  <p>
+    But always does
+  </p>
+</section>
+<section class="center">
+  <img class="inline" src="img/troll.png" />
 </section>
 <section class="center" data-background="#000">
-  <p class="white">
-    universe.expand
+  <h2 class="white">
+    Exceptions
+  </h2>
+</section>
+<section>
+  <h2>
+    Exception
+  </h2>
+  <p>
+    Errors in Ruby are represented by exceptions
   </p>
+</section>
+<section>
+  <h2>
+    Exception
+  </h2>
+  <p>
+    Is an object of a type Exception
+  </p>
+</section>
+<section>
+  <h2>
+    Exception
+  </h2>
+  <p>
+    They stop the current execution flow, unless they are handled
+  </p>
+</section>
+<section>
+  <h2>
+    begin
+  </h2>
+  <p>
+    We handle exceptions in begin/rescue/else/ensure blocks
+  </p>
+  <pre><code class="ruby">f = File.open("testfile")
+begin
+  # .. process
+rescue
+  # .. handle error
+else
+  puts "Congratulations-- no errors!"
+ensure
+  f.close unless f.nil?
+end </code></pre>
+</section>
+<section data-background="#000">
+  <pre class="white">Exception
+  NoMemoryError
+  ScriptError
+    LoadError
+    NotImplementedError
+    SyntaxError
+  SecurityError
+  SignalException
+    Interrupt
+  StandardError -- default for rescue
+  SystemExit
+  SystemStackError
+  fatal –- impossible to rescue </pre>
+</section>
+<section data-background="#000">
+  <pre class="white">StandardError -- default for rescue
+  ArgumentError
+  EncodingError
+  FiberError
+  IOError
+    EOFError
+  IndexError
+    KeyError
+    StopIteration
+  LocalJumpError
+  NameError
+    NoMethodError
+  RangeError
+    FloatDomainError
+  RegexpError
+  RuntimeError -- default for raise
+  SystemCallError
+    Errno::*
+  ThreadError
+  TypeError
+  ZeroDivisionError </pre>
+</section>
+<section>
+  <h2>
+    retry
+  </h2>
+  <p>
+    We can play the block all over again
+  </p>
+  <pre><code class="ruby">@esmtp = true
+begin
+  # First try an extended login. If it fails because the
+  # server doesn't support it, fall back to a normal login
+  if @esmtp
+    @command.ehlo(helodom)
+  else
+    @command.helo(helodom)
+  end
+rescue ProtocolError
+  if @esmtp
+    @esmtp = false
+    retry
+  else
+    raise
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    You can raise exceptions in your code with Kernel#raise
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    First form reraises the current exception
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    Raises RuntimeError if there is no current exception
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    Used in exception handlers that need to intercept an exception before passing it on
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    Second form creates a new RuntimeError exception, setting its message to the given string
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    The third form uses the first argument to create an exception and then sets the associated message to the second argument and the stack trace to the third argument
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    Technically, this argument can be any object that responds to the message exception by returning an object such that object.kind_of?(Exception) is true
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#raise
+  </h2>
+  <p>
+    The stack trace is normally produced using the Kernel#caller method
+  </p>
+  <pre><code class="ruby">raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller </code></pre>
+</section>
+<section>
+  <pre><code class="ruby" contenteditable="">raise
+
+raise "Missing name" if name.nil?
+
+if i >= myNames.size
+  raise IndexError, "#\{i} >= size (#\{myNames.size})"
+end
+
+raise ArgumentError, "Name too big", caller </code></pre>
 </section>
 <section class="center" data-background="#000">
-  <p class="white">
-    universe.kill_them_all_eventually
+  <h2 class="white">
+    Quirks
+  </h2>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    The exception matching rescues the first #is_a?
   </p>
+  <pre><code class="ruby" contenteditable="">begin
+  [].fetch(42)
+rescue StandardError
+  puts "A STANDARD ERROR"
+rescue IndexError
+  puts "PLEASE DON'T HANDLE EXCEPTIONS LIKE THAT"
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    The exception matching rescues the first #is_a?
+  </p>
+  <pre><code class="ruby" contenteditable="">begin
+  {}.fetch(42)
+rescue IndexError
+  puts "AN INDEX ERROR"
+rescue KeyError
+  puts "PLEASE DON'T HANDLE EXCEPTIONS LIKE THAT"
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    The method body is implicit begin block
+  </p>
+  <pre><code class="ruby" contenteditable="">def read_file(path)
+  file = File.open(path.to_s)
+rescue
+  # Errors, handle them all!
+else
+  # No errors, yay!
+ensure
+  file.close if file
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    begin can be used without rescue
+  </p>
+  <pre><code class="ruby" contenteditable="">class Something
+  def valueccount_no ''
+    @value ||= begin
+                 value = method_calculation
+                 value.transform!
+                 value.transform_even_more!
+                 value
+               end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    rescue has an expression modifier form
+  </p>
+  <pre><code class="ruby" contenteditable="">class Something
+  def value
+    [].fetch(42) rescue 42
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    Don't use it!
+  </p>
+  <pre><code class="ruby" contenteditable="">This is valid Ruby rescue :lol </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    Don't use it!
+  </p>
+  <pre><code class="ruby" contenteditable="">You can write a whole fucking sentance rescue :lol </code></pre>
+</section>
+<section>
+  <h2>
+    Quirks
+  </h2>
+  <p>
+    Don't use it!
+  </p>
+  <pre><code class="ruby" contenteditable="">You can write a whole fucking sentance rescue nil </code></pre>
 </section>
 <section class="center" data-background="#000">
-  <p class="white">
-    We call those actions methods
+  <h2 class="white">
+    Control Flow
+  </h2>
+</section>
+<section class="center">
+  <p>
+    While the exception mechanism of raise and rescue is great for abandoning execution
   </p>
+</section>
+<section class="center">
+  <p>
+    Sometimes its nice to be able to jump out of some deeply nested construct during normal processing
+  </p>
+</section>
+<section class="center">
+  <p>
+    This is where catch and throw come in handy
+  </p>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">catch :done do
+  while gets
+    throw :done unless fields = split(/\t/)
+    songs.add Song.new(*fields)
+  end
+  songs.play
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#catch
+  </h2>
+  <p>
+    Defines a block that is labeled with the given name (Symbol or a String)
+  </p>
+  <pre><code class="ruby" contenteditable="true">catch :done do
+  while gets
+    throw :done unless fields = split(/\t/)
+    songs.add Song.new(*fields)
+  end
+  songs.play
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#catch
+  </h2>
+  <p>
+    The block is executed normally until a throw is encountered
+  </p>
+  <pre><code class="ruby" contenteditable="true">catch :done do
+  while gets
+    throw :done unless fields = split(/\t/)
+    songs.add Song.new(*fields)
+  end
+  songs.play
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#throw
+  </h2>
+  <p>
+    When Ruby encounters a throw, it zips back up the call stack looking for a catch block with a matching symbol
+  </p>
+  <pre><code class="ruby" contenteditable="true">catch :done do
+  while gets
+    throw :done unless fields = split(/\t/)
+    songs.add Song.new(*fields)
+  end
+  songs.play
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#throw
+  </h2>
+  <p>
+    When it finds it, Ruby unwinds the stack to that point and terminates the block
+  </p>
+  <pre><code class="ruby" contenteditable="true">catch :done do
+  while gets
+    throw :done unless fields = split(/\t/)
+    songs.add Song.new(*fields)
+  end
+  songs.play
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Kernel#throw
+  </h2>
+  <p>
+    If the throw is called with the optional second parameter, that value is returned as the value of the catch
+  </p>
+  <pre><code class="ruby" contenteditable="true">catch :done do
+  while gets
+    throw :done unless fields = split(/\t/)
+    songs.add Song.new(*fields)
+  end
+  songs.play
+end </code></pre>
 </section>
 <section class="center" data-background="#000">
-  <p class="white">
-    Don't worry too much about them for now
-  </p>
-</section>
-<section>
-  <h2>
-    Integer
-  </h2>
+  <blockquoute class="white">Exceptions are exceptional</blockquoute>
   <p>
-    As every object, integers respond to methods
+    Dimitar Dimitrov
   </p>
-  <pre><code class="ruby">>> 3.times { puts "♪ ruby ♪" }
-♪ ruby ♪
-♪ ruby ♪
-♪ ruby ♪
-=> 3 </code></pre>
-</section>
-<section>
-  <h2>
-    Integer
-  </h2>
-  <p>
-    As every object, integers respond to methods
-  </p>
-  <pre><code class="ruby">>> 16.even?
-=> true </code></pre>
-</section>
-<section>
-  <h2>
-    Floats
-  </h2>
-  <p>
-    Floats can be expressed by scientific notation
-  </p>
-  <pre><code class="ruby">3.1415926 # Float
-6.022e23  # Float </code></pre>
-</section>
-<section>
-  <h2>
-    Floats
-  </h2>
-  <p>
-    Floats will be floats
-  </p>
-  <pre><code class="ruby">>> 0.1 + 0.2
-=> 0.30000000000000004
->> 0.1 + 0.2 == 0.3
-=> false </code></pre>
-</section>
-<section>
-  <h2>
-    Rational
-  </h2>
-  <p>
-    A nice little addition
-  </p>
-  <pre><code class="ruby">1/2r # Rational </code></pre>
-</section>
-<section class="center" data-background="#000">
-  <p class="white">
-    Spoiler alert
-  </p>
-</section>
-<section>
-  <h2>
-    Numbers
-  </h2>
-  <p>
-    There are complex and big decimal implementations
-  </p>
-  <pre><code class="ruby">>> require 'complex'
-=> true
->> Complex '1i'
-=> (0+1i) </code></pre>
-</section>
-<section>
-  <h2>
-    Numbers
-  </h2>
-  <p>
-    There are complex and big decimal implementations
-  </p>
-  <pre><code class="ruby">>> require 'bigdecimal'
-=> true
->> BigDecimal('125') / BigDecimal('100000')
-=> #<BigDecimal:7f9c2b070610,'0.125E-2',9(36)> </code></pre>
-</section>
-<section class="center" data-background="#000">
-  <p class="white">
-    If you need to store money, do that in BigDecimal
-  </p>
-</section>
-<section>
-  <h2>
-    TrueClass
-  </h2>
-  <p>
-    The "formal" truth
-  </p>
-  <pre><code class="ruby">'He said "Hello, mister"...'
-"He said, \"There are miltiline\nstrings\"..." </code></pre>
-</section>
-<section>
-  <h2>
-    String
-  </h2>
-  <p>
-    They can be written with single and double quotes
-  </p>
-  <pre><code class="ruby">'He said "Hello, mister"...'
-"He said, \"There are miltiline\nstrings\"..." </code></pre>
-</section>
-<section>
-  <h2>
-    String
-  </h2>
-  <p>
-    The two notations are not the same (unlike Python)
-  </p>
-  <pre><code class="ruby">>> '\n' == "\n"
-=> false
->> "42" == '42'
-=> false </code></pre>
-</section>
-<section>
-  <h2>
-    String
-  </h2>
-  <p>
-    Are mutable, which may surprise you
-  </p>
-  <pre><code class="ruby">>> weather = "raining"
-=> "raining"
->> weather["rain"] = "snow"
-=> "snow"
->> weather
-=> "snowing" </code></pre>
-</section>
-<section>
-  <h2>
-    Symbols
-  </h2>
-  <p>
-    Symbols are like lightweight strings
-  </p>
-  <pre><code class="ruby">:a_symbol
-:symbols_literals_should_be_valid_identifiers!
-:"if not, they have to be written like this"
-:'which looks kinda funny' </code></pre>
-</section>
-<section>
-  <h2>
-    Symbols
-  </h2>
-  <p>
-    They are interned, meaning they always yield the same object
-  </p>
-  <pre><code class="ruby">>> :chunky.object_id == :chunky.object_id
-=> true
->> "chunky".object_id == "chunky".object_id
-=> false </code></pre>
-</section>
-<section></section>
-<h2>
-  Symbols
-</h2>
-<p>
-  You'll use them for internal representations
-</p>
-<section class="center" data-background="#000"></section>
-<p class="white">
-  Nobody gets the first time, its okay
-</p>
-<section></section>
-<h2>
-  The Truth
-</h2>
-<p>
-  Everything is true<span class="fragment">, except nil and false</span>
-</p>
-<section>
-  <h2>
-    TrueClass
-  </h2>
-  <ul>
-    <li>
-      There is no Boolean class in Ruby
-    </li>
-    <li>
-      The formal truth is represented by true
-    </li>
-  </ul>
-  <pre><code class="ruby">>> true.class.ancestors
-=> [TrueClass, Object, Kernerl, BasicObject] </code></pre>
-</section>
-<section>
-  <h2>
-    FalseClass
-  </h2>
-  <ul>
-    <li>
-      There is no Boolean class in Ruby
-    </li>
-    <li>
-      The formal lie is represented by true
-    </li>
-  </ul>
-  <pre><code class="ruby">>> false.class.ancestors
-=> [FalseClass, Object, Kernerl, BasicObject] </code></pre>
-</section>
-<section class="center" data-background="#000">
-  <blockquote class="white">I call it my billion-dollar mistake.</blockquote>
-  <p class="white">
-    Tony Hoare
-  </p>
-</section>
-<section>
-  <h2>
-    NilClass
-  </h2>
-  <p>
-    When there is nothing to return
-  </p>
-  <pre><code class="ruby">>> def foo; end
-=> :foo
->> foo
-=> nil </code></pre>
-</section>
-<section>
-  <h2>
-    Operators
-  </h2>
-  <pre>Method  Operator
-Y       [ ] [ ]=
-Y       **
-Y       ! ~
-Y       * / %
-Y       + -
-Y       >> <<
-Y       &
-Y       ^ |
-Y       <= < > >=
-Y       <=> == === != =~ !~	
-        &&	
-        ||
-        .. ...
-        ? :
-        = %= { /= -= += |= &= >>= <<= *= &&= ||= **=
-        defined?
-        not
-        or and
-        if unless while until
-        begin/end </pre>
-</section>
-<section>
-  <h2>
-    Operators
-  </h2>
-  <ul>
-    <li>
-      They won't return strict true or false
-    </li>
-    <li>
-      Rather the last truthy of falsy value
-    </li>
-  </ul>
 </section>
       </div>
     </div>
@@ -522,7 +588,6 @@ Y       <=> == === != =~ !~
         controls: false,
         progress: false,
         history: true,
-      
         center: false,
         rollingLinks: true,
         transition: 'none',
