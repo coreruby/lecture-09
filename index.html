@@ -116,6 +116,285 @@ end </code></pre>
   private def shh() "IT'S A SECRET!" end
 end </code></pre>
 </section>
+<section class="center">
+  <img class="inline" src="img/troll.png" />
+</section>
+<section class="center" data-background="#000">
+  <h2 class="white">
+    Constants
+  </h2>
+</section>
+<section>
+  <h2>
+    Constants
+  </h2>
+  <p>
+    Constants start with a capital letter
+  </p>
+  <pre><code class="ruby" contenteditable="true">ANSWER = 42            # This is a constant!
+Europe = Continent.new # So is this! </code></pre>
+</section>
+<section>
+  <h2>
+    Constants
+  </h2>
+  <p>
+    Constants are not strictly enforced
+  </p>
+  <pre><code class="ruby" contenteditable="true">>> Foo = 42
+=> 42
+>> Foo = 43
+(irb):40: warning: already initialized constant Foo
+(irb):39: warning: previous definition of Foo was here
+=> 43 </code></pre>
+</section>
+<section>
+  <h2>
+    Constants
+  </h2>
+  <p>
+    Modules are mostly used as constants
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Awesome
+  # The best module ever, cause you can query:
+  #
+  #   object.is_a? Awesome
+  #
+  # Mind = blown, bro!
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    Modules are used as namespaces
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  INSIDE = :foo
+  module Bar
+    INSIDE = :bar
+    module Quux
+      INSIDE = :quux
+    end
+  end
+end </code></pre>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">Foo::INISDE            #=> :foo
+Foo::Bar::INISDE       #=> :bar
+Foo::Bar::Quux::INSIDE #=> :quux </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    Access constants with implicit prefix
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  INSIDE = :foo
+  module Bar
+    INSIDE = :bar
+    module Quux
+      INSIDE = :quux
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    Access constants with explicit prefix
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      p INSIDE      #=> :quux
+      p Bar::INSIDE #=> :bar
+      p Foo::INSIDE #=> :foo
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    You can access top-level constants with ::
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      p ::Foo::Bar::Quux::INSIDE #=> :quux
+      p ::Foo::Bar::INSIDE       #=> :bar
+      p ::Foo::INSIDE            #=> :foo
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    Constants form a tree
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      p Object::Foo::Bar::Quux::INSIDE #=> :quux
+      p Object::Foo::Bar::INSIDE       #=> :bar
+      p Object::Foo::INSIDE            #=> :foo
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    The root of it is Object
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      p Object::Foo::Bar::Quux::INSIDE #=> :quux
+      p Object::Foo::Bar::INSIDE       #=> :bar
+      p Object::Foo::INSIDE            #=> :foo
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    The root of it is Object
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      module Object
+        INSIDE = :object
+      end
+      p Object::INSIDE                 #=> :foo
+      p Object::Foo::Bar::Quux::INSIDE #=> NameError
+      p Object::Foo::Bar::INSIDE       #=> NameError
+      p Object::Foo::INSIDE            #=> NameError
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    The root of it is ::Object
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      module Object
+        INSIDE = :object
+      end
+      p Object::INSIDE                   #=> :foo
+      p ::Object::Foo::Bar::Quux::INSIDE #=> :quux
+      p ::Object::Foo::Bar::INSIDE       #=> :bar
+      p ::Object::Foo::Bar::INSIDE       #=> NameError
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    Only module constants can be nodes
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      module Object
+        INSIDE = :object
+      end
+      p Object::INSIDE                   #=> :foo
+      p ::Object::Foo::Bar::Quux::INSIDE #=> NameError
+      p ::Object::Foo::Bar::INSIDE       #=> NameError
+      p ::Object::Foo::Bar::INSIDE       #=> NameError
+    end
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Namespace
+  </h2>
+  <p>
+    Non modules can only be leafs
+  </p>
+  <pre><code class="ruby" contenteditable="true">A = 42
+A::C     # TypeError: 42 is not a class/module
+Foo::Egg # NameError: uninitialized constant Foo::Egg </code></pre>
+</section>
+<section>
+  <h2>
+    Module.nesting
+  </h2>
+  <p>
+    The list of Modules nested at the point of call
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo::Bar::Quux
+  p Module.nesting #=> [Foo::Bar::Quux]
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Module.nesting
+  </h2>
+  <p>
+    The list of Modules nested at the point of call
+  </p>
+  <pre><code class="ruby" contenteditable="true">module Foo::Bar::Quux
+  p Bar::INSIDE #=> NameError: uninitialized constant Foo::Bar::Quux::Bar
+end </code></pre>
+</section>
+<section class="center" data-background="#000">
+  <p class="white">
+    Module.nesting is where Ruby looks to find a constant
+  </p>
+</section>
+<section class="center" data-background="#000">
+  <p class="white">
+    Think of it as something lexical
+  </p>
+</section>
+<section class="center" data-background="#000">
+  <p class="white">
+    If you don't lexically nest, you won't get parent constants
+  </p>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">module Foo
+  module Bar
+    module Quux
+      p Module.nesting #=> [Foo::Bar::Quux, Foo::Bar, Foo]
+    end
+  end
+end </code></pre>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">module Foo::Bar::Quux
+  p Module.nesting     #=> [Foo::Bar::Quux]
+end </code></pre>
+</section>
       </div>
     </div>
     <script src="js/head.min.js"></script>

@@ -86,3 +86,253 @@ section.center
       class something
         private def shh() "IT'S A SECRET!" end
       end
+
+section.center
+  img.inline src="img/troll.png"
+
+section.center data-background="#000"
+  h2.white Constants
+
+section
+  h2 Constants
+  p Constants start with a capital letter
+  pre: code.ruby contenteditable="true"
+    '
+      ANSWER = 42            # This is a constant!
+      Europe = Continent.new # So is this!
+
+section
+  h2 Constants
+  p Constants are not strictly enforced
+  pre: code.ruby contenteditable="true"
+    '
+      >> Foo = 42
+      => 42
+      >> Foo = 43
+      (irb):40: warning: already initialized constant Foo
+      (irb):39: warning: previous definition of Foo was here
+      => 43
+
+section
+  h2 Constants
+  p Modules are mostly used as constants
+  pre: code.ruby contenteditable="true"
+    '
+      module Awesome
+        # The best module ever, cause you can query:
+        #
+        #   object.is_a? Awesome
+        #
+        # Mind = blown, bro!
+      end
+
+section
+  h2 Namespace
+  p Modules are used as namespaces
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        INSIDE = :foo
+        module Bar
+          INSIDE = :bar
+          module Quux
+            INSIDE = :quux
+          end
+        end
+      end
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      Foo::INISDE            #=> :foo
+      Foo::Bar::INISDE       #=> :bar
+      Foo::Bar::Quux::INSIDE #=> :quux
+
+section
+  h2 Namespace
+  p Access constants with implicit prefix
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        INSIDE = :foo
+        module Bar
+          INSIDE = :bar
+          module Quux
+            INSIDE = :quux
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p Access constants with explicit prefix
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            p INSIDE      #=> :quux
+            p Bar::INSIDE #=> :bar
+            p Foo::INSIDE #=> :foo
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p You can access top-level constants with ::
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            p ::Foo::Bar::Quux::INSIDE #=> :quux
+            p ::Foo::Bar::INSIDE       #=> :bar
+            p ::Foo::INSIDE            #=> :foo
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p Constants form a tree
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            p Object::Foo::Bar::Quux::INSIDE #=> :quux
+            p Object::Foo::Bar::INSIDE       #=> :bar
+            p Object::Foo::INSIDE            #=> :foo
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p The root of it is Object
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            p Object::Foo::Bar::Quux::INSIDE #=> :quux
+            p Object::Foo::Bar::INSIDE       #=> :bar
+            p Object::Foo::INSIDE            #=> :foo
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p The root of it is Object
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            module Object
+              INSIDE = :object
+            end
+            p Object::INSIDE                 #=> :foo
+            p Object::Foo::Bar::Quux::INSIDE #=> NameError
+            p Object::Foo::Bar::INSIDE       #=> NameError
+            p Object::Foo::INSIDE            #=> NameError
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p The root of it is ::Object
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            module Object
+              INSIDE = :object
+            end
+            p Object::INSIDE                   #=> :foo
+            p ::Object::Foo::Bar::Quux::INSIDE #=> :quux
+            p ::Object::Foo::Bar::INSIDE       #=> :bar
+            p ::Object::Foo::Bar::INSIDE       #=> NameError
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p Only module constants can be nodes
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            module Object
+              INSIDE = :object
+            end
+            p Object::INSIDE                   #=> :foo
+            p ::Object::Foo::Bar::Quux::INSIDE #=> NameError
+            p ::Object::Foo::Bar::INSIDE       #=> NameError
+            p ::Object::Foo::Bar::INSIDE       #=> NameError
+          end
+        end
+      end
+
+section
+  h2 Namespace
+  p Non modules can only be leafs
+  pre: code.ruby contenteditable="true"
+    '
+      A = 42
+      A::C     # TypeError: 42 is not a class/module
+      Foo::Egg # NameError: uninitialized constant Foo::Egg
+
+section
+  h2 Module.nesting
+  p The list of Modules nested at the point of call
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo::Bar::Quux
+        p Module.nesting #=> [Foo::Bar::Quux]
+      end
+
+section
+  h2 Module.nesting
+  p The list of Modules nested at the point of call
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo::Bar::Quux
+        p Bar::INSIDE #=> NameError: uninitialized constant Foo::Bar::Quux::Bar
+      end
+
+section.center data-background="#000"
+  p.white Module.nesting is where Ruby looks to find a constant
+
+section.center data-background="#000"
+  p.white Think of it as something lexical
+
+section.center data-background="#000"
+  p.white If you don't lexically nest, you won't get parent constants
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo
+        module Bar
+          module Quux
+            p Module.nesting #=> [Foo::Bar::Quux, Foo::Bar, Foo]
+          end
+        end
+      end
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      module Foo::Bar::Quux
+        p Module.nesting     #=> [Foo::Bar::Quux]
+      end
+
+section.center data-background="#000"
+  h2 Scope
