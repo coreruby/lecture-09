@@ -335,4 +335,160 @@ section.center
       end
 
 section.center data-background="#000"
+  h2.white Scope
+
+section
   h2 Scope
+  ul
+    li Local Variables Scope
+    li Global Variables Scope
+    li Class Variables Scope
+    li Instance Variables Scope
+    li Constant Scope
+
+section
+  h2 Local Variables Scope
+  p Local to the code construct in which they are declared
+  pre: code.ruby contenteditable="true"
+    '
+      x = 42
+
+      def change_x
+        x = 43
+      end
+
+      change_x
+      x #=> 42
+
+section
+  h2 Local Variables Scope
+  p Local to the code construct in which they are declared
+  pre: code.ruby contenteditable="true"
+    '
+      x = 42
+
+      def change_x
+        x = 43
+      end
+
+      change_x
+      x #=> 42
+
+section
+  h2 Local Variables Scope
+  p Local to the code construct in which they are declared
+  pre: code.ruby contenteditable="true"
+    '
+      x = 42
+
+      class Something
+        puts x #=> NameError: undefined local variable or method `x' for Something:Class
+      end
+
+section
+  h2 Local Variables Scope
+  p Local to the code construct in which they are declared
+  pre: code.ruby contenteditable="true"
+    '
+      x = 42
+
+      module Something
+        puts x #=> NameError: undefined local variable or method `x' for Something:Class
+      end
+
+section
+  h2 Global Variables Scope
+  p Global variables in Ruby are accessible from anywhere in the Ruby program
+  pre: code.ruby contenteditable="true"
+    '
+      $stdout #=> #<IO:<STDOUT>>
+
+      class Printer
+        def print(*messages)
+          messages.each { |message| $stdout.write(message) }
+        end
+      end
+
+section
+  h2 Global Variables Scope
+  p No matter where they were declared
+  pre: code.ruby contenteditable="true"
+    '
+      $stdout #=> #<IO:<STDOUT>>
+
+      class Printer
+        def print(*messages)
+          messages.each { |message| $stdout.write(message) }
+        end
+      end
+
+section
+  h2 Class Variables Scope
+  p A class variable is a variable that is shared amongst all instances of a class
+
+section
+  h2 Class Variables Scope
+  p Only one variable value exists for all objects instantiated from this class
+
+section
+  h2 Class Variables Scope
+  p If class or module changes the value, it will change for all
+  pre: code.ruby contenteditable="true"
+    '
+      class Base
+        @@store = { base: 'Base was here!' }
+      end
+
+      class Der < Base
+        @@store[:der] = 'Der was here!'
+      end
+
+      class Base
+        p @@store # {:base=>"Base was here!", :der=>"Der was here!"}
+      end
+
+section.center data-background="#000"
+  p.white I don't like class variables
+
+section.center data-background="#000"
+  p.white They have different semantics than the instance variables
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      class Bro
+        p @@homies #=> NameError: uninitialized class variable @@homies in Bro
+      end
+
+section.center
+  img.inline src="img/troll.png"
+
+section
+  h2 Instance Variables Scope
+  p Specific to an object
+  pre: code.ruby contenteditable="true"
+    '
+      class Bro
+        attr_reader :homies
+
+        def set_homies(*homies)
+          @homies = homies
+        end
+      end
+
+section
+  h2 Instance Variables Scope
+  p Specific to an object
+  pre: code.ruby contenteditable="true"
+    '
+      genadi = Bro.new
+      genadi.set_homies 'Stefan', 'Dimitar', 'Radoslav'
+      genadi.homies #=> ["Stefan", "Dimitar", "Radoslav"]
+
+      stefan = Bro.new
+      stefan.set_homies 'Yves', 'Dimitar', 'Bozhidar'
+      stefan.homies #=> ["Yves", "Dimitar", "Bozhidar"]
+
+section
+  h2 Constant Scope
+  p: a href="#/24": img.inline src="img/troll.png"

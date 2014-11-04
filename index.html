@@ -395,6 +395,212 @@ end </code></pre>
   p Module.nesting     #=> [Foo::Bar::Quux]
 end </code></pre>
 </section>
+<section class="center" data-background="#000">
+  <h2 class="white">
+    Scope
+  </h2>
+</section>
+<section>
+  <h2>
+    Scope
+  </h2>
+  <ul>
+    <li>
+      Local Variables Scope
+    </li>
+    <li>
+      Global Variables Scope
+    </li>
+    <li>
+      Class Variables Scope
+    </li>
+    <li>
+      Instance Variables Scope
+    </li>
+    <li>
+      Constant Scope
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>
+    Local Variables Scope
+  </h2>
+  <p>
+    Local to the code construct in which they are declared
+  </p>
+  <pre><code class="ruby" contenteditable="true">x = 42
+
+def change_x
+  x = 43
+end
+
+change_x
+x #=> 42 </code></pre>
+</section>
+<section>
+  <h2>
+    Local Variables Scope
+  </h2>
+  <p>
+    Local to the code construct in which they are declared
+  </p>
+  <pre><code class="ruby" contenteditable="true">x = 42
+
+def change_x
+  x = 43
+end
+
+change_x
+x #=> 42 </code></pre>
+</section>
+<section>
+  <h2>
+    Local Variables Scope
+  </h2>
+  <p>
+    Local to the code construct in which they are declared
+  </p>
+  <pre><code class="ruby" contenteditable="true">x = 42
+
+class Something
+  puts x #=> NameError: undefined local variable or method `x' for Something:Class
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Local Variables Scope
+  </h2>
+  <p>
+    Local to the code construct in which they are declared
+  </p>
+  <pre><code class="ruby" contenteditable="true">x = 42
+
+module Something
+  puts x #=> NameError: undefined local variable or method `x' for Something:Class
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Global Variables Scope
+  </h2>
+  <p>
+    Global variables in Ruby are accessible from anywhere in the Ruby program
+  </p>
+  <pre><code class="ruby" contenteditable="true">$stdout #=> #<IO:<STDOUT>>
+
+class Printer
+  def print(*messages)
+    messages.each { |message| $stdout.write(message) }
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Global Variables Scope
+  </h2>
+  <p>
+    No matter where they were declared
+  </p>
+  <pre><code class="ruby" contenteditable="true">$stdout #=> #<IO:<STDOUT>>
+
+class Printer
+  def print(*messages)
+    messages.each { |message| $stdout.write(message) }
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Class Variables Scope
+  </h2>
+  <p>
+    A class variable is a variable that is shared amongst all instances of a class
+  </p>
+</section>
+<section>
+  <h2>
+    Class Variables Scope
+  </h2>
+  <p>
+    Only one variable value exists for all objects instantiated from this class
+  </p>
+</section>
+<section>
+  <h2>
+    Class Variables Scope
+  </h2>
+  <p>
+    If class or module changes the value, it will change for all
+  </p>
+  <pre><code class="ruby" contenteditable="true">class Base
+  @@store = { base: 'Base was here!' }
+end
+
+class Der < Base
+  @@store[:der] = 'Der was here!'
+end
+
+class Base
+  p @@store # {:base=>"Base was here!", :der=>"Der was here!"}
+end </code></pre>
+</section>
+<section class="center" data-background="#000">
+  <p class="white">
+    I don't like class variables
+  </p>
+</section>
+<section class="center" data-background="#000">
+  <p class="white">
+    They have different semantics than the instance variables
+  </p>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">class Bro
+  p @@homies #=> NameError: uninitialized class variable @@homies in Bro
+end </code></pre>
+</section>
+<section class="center">
+  <img class="inline" src="img/troll.png" />
+</section>
+<section>
+  <h2>
+    Instance Variables Scope
+  </h2>
+  <p>
+    Specific to an object
+  </p>
+  <pre><code class="ruby" contenteditable="true">class Bro
+  attr_reader :homies
+
+  def set_homies(*homies)
+    @homies = homies
+  end
+end </code></pre>
+</section>
+<section>
+  <h2>
+    Instance Variables Scope
+  </h2>
+  <p>
+    Specific to an object
+  </p>
+  <pre><code class="ruby" contenteditable="true">genadi = Bro.new
+genadi.set_homies 'Stefan', 'Dimitar', 'Radoslav'
+genadi.homies #=> ["Stefan", "Dimitar", "Radoslav"]
+
+stefan = Bro.new
+stefan.set_homies 'Yves', 'Dimitar', 'Bozhidar'
+stefan.homies #=> ["Yves", "Dimitar", "Bozhidar"] </code></pre>
+</section>
+<section>
+  <h2>
+    Constant Scope
+  </h2>
+  <p>
+    <a href="#/24"><img class="inline" src="img/troll.png" /></a>
+  </p>
+</section>
       </div>
     </div>
     <script src="js/head.min.js"></script>
