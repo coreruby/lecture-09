@@ -601,6 +601,75 @@ stefan.homies #=> ["Yves", "Dimitar", "Bozhidar"] </code></pre>
     <a href="#/24"><img class="inline" src="img/troll.png" /></a>
   </p>
 </section>
+<section>
+  <h2>
+    Binding
+  </h2>
+  <p>
+    Encapsulate the execution context at some particular place in the code and retain this context for future use
+  </p>
+</section>
+<section>
+  <h2>
+    Binding
+  </h2>
+  <p>
+    The variables, methods, value of self, and possibly an iterator block that can be accessed in this context are all retained
+  </p>
+</section>
+<section>
+  <h2>
+    Binding
+  </h2>
+  <p>
+    Created using Kernel#binding, and are made available to the callback of Kernel#set_trace_func
+  </p>
+</section>
+<section>
+  <h2>
+    Kernel#binding
+  </h2>
+  <p>
+    Created using Kernel#binding, and are made available to the callback of Kernel#set_trace_func
+  </p>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">class Secret
+  def initialize(n)
+    @secret = n
+  end
+
+  def peek
+    binding
+  end
+
+  private
+
+  def shh
+    "IT'S A SECRET"
+  end
+end </code></pre>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">s1 = Secret.new(99)
+b1 = s1.peek
+s2 = Secret.new(-3)
+b2 = s2.peek
+
+eval("@secret", b1)   #=> 99
+eval("@secret", b2)   #=> -3
+eval("@secret")       #=> nil </code></pre>
+</section>
+<section class="center">
+  <pre><code class="ruby" contenteditable="true">s1 = Secret.new(99)
+b1 = s1.peek
+s2 = Secret.new(-3)
+b2 = s2.peek
+
+eval("shh", b1)   #=> "IT'S A SECRET"
+eval("shh", b2)   #=> "IT'S A SECRET"
+eval("shh")       #=> NameError: undefined local variable or method `shh' for main:Object` </code></pre>
+</section>
       </div>
     </div>
     <script src="js/head.min.js"></script>

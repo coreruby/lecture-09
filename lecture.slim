@@ -492,3 +492,62 @@ section
 section
   h2 Constant Scope
   p: a href="#/24": img.inline src="img/troll.png"
+
+section
+  h2 Binding
+  p Encapsulate the execution context at some particular place in the code and retain this context for future use
+
+section
+  h2 Binding
+  p The variables, methods, value of self, and possibly an iterator block that can be accessed in this context are all retained
+
+section
+  h2 Binding
+  p Created using Kernel#binding, and are made available to the callback of Kernel#set_trace_func
+
+section
+  h2 Kernel#binding
+  p Created using Kernel#binding, and are made available to the callback of Kernel#set_trace_func
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      class Secret
+        def initialize(n)
+          @secret = n
+        end
+
+        def peek
+          binding
+        end
+
+        private
+
+        def shh
+          "IT'S A SECRET"
+        end
+      end
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      s1 = Secret.new(99)
+      b1 = s1.peek
+      s2 = Secret.new(-3)
+      b2 = s2.peek
+
+      eval("@secret", b1)   #=> 99
+      eval("@secret", b2)   #=> -3
+      eval("@secret")       #=> nil
+
+section.center
+  pre: code.ruby contenteditable="true"
+    '
+      s1 = Secret.new(99)
+      b1 = s1.peek
+      s2 = Secret.new(-3)
+      b2 = s2.peek
+
+      eval("shh", b1)   #=> "IT'S A SECRET"
+      eval("shh", b2)   #=> "IT'S A SECRET"
+      eval("shh")       #=> NameError: undefined local variable or method `shh' for main:Object`
